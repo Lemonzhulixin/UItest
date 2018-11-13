@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 """camera的基本操作测试用例."""
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
-from iOS import script_ultils as sc
 import time
 from unittest import TestCase
 from selenium.webdriver.support.ui import WebDriverWait
-from iOS import iOS_elements,base as ba
+from iOS.Base import base as ba, script_ultils as sc, iOS_elements
+
 
 class TestCameraNormal(TestCase):
     """camera的基本操作测试类."""
@@ -27,16 +27,28 @@ class TestCameraNormal(TestCase):
         sc.logger.info('拍摄-滤镜下载')
         fun_name = 'test_normal_filter_download'
 
+        start_x = self.width // 2
+        start_y = self.height // 8
+        start_bottom = self.height - start_y
+
         sc.logger.info('点击创作中心主按钮')
         ba.home_enter()
 
         sc.logger.info('点击“高清拍摄”按钮')
-        WebDriverWait(sc.driver, 3, 1).until(
-            lambda x: x.find_element_by_xpath(iOS_elements.el_home_camera)).click()
+        try:
+            WebDriverWait(sc.driver, 3, 1).until(
+                lambda x: x.find_element_by_xpath(iOS_elements.home_camera)).click()
+        except TimeoutException:
+            WebDriverWait(sc.driver, 3, 1).until(
+                lambda x: x.find_element_by_xpath(iOS_elements.el_home_camera)).click()
 
         sc.logger.info('点击滤镜图标')
         time.sleep(1)
-        ba.find_element_click('name', 5, iOS_elements.el_filter_icon)
+        try:
+            WebDriverWait(sc.driver, 5, 1).until(
+                lambda x: x.find_element_by_name(iOS_elements.el_filter_icon)).click()
+        except TimeoutException:
+            sc.logger.info('滤镜列表已自动弹出')
         sc.capture_screen(fun_name, self.img_path)
 
         sc.logger.info('下载滤镜')
@@ -44,6 +56,10 @@ class TestCameraNormal(TestCase):
             sc.logger.info('点击下载按钮')
             sc.driver.find_element_by_xpath(iOS_elements.el_filter_download).click()
             sc.capture_screen(fun_name, self.img_path)
+            try:
+                sc.driver.find_element_by_name('取消').click()
+            except NoSuchElementException:
+                sc.logger.info('该滤镜不是解锁滤镜')
         except NoSuchElementException:
             sc.logger.info('当前页面已无未下载滤镜')
 
@@ -61,9 +77,18 @@ class TestCameraNormal(TestCase):
             sc.driver.find_element_by_name(iOS_elements.el_filter_more).click()
             sc.capture_screen(fun_name, self.img_path)
 
-        sc.logger.info('退出更多页面')
-        ba.find_element_click('xpath', 10, iOS_elements.el_studio_back)
-        sc.capture_screen(fun_name, self.img_path)
+        sc.logger.info('下载并使用滤镜')
+        while True:
+            try:
+                sc.driver.find_element_by_name(iOS_elements.el_store_download2).click()
+                break
+            except NoSuchElementException:
+                sc.logger.info('当前页面已无未下载主题')
+                sc.swipe_by_ratio(start_x, start_bottom, 'up', 0.5, 300)
+
+        sc.logger.info('使用滤镜')
+        WebDriverWait(sc.driver, 20, 1).until(
+            lambda x: x.find_element_by_name("使用")).click()
 
         sc.logger.info('退出拍摄')
         ba.find_element_click('name', 5, iOS_elements.el_cam_close)
@@ -74,9 +99,14 @@ class TestCameraNormal(TestCase):
         sc.logger.info('拍摄-设置相关')
         fun_name = 'test_camera_normal_settings'
 
-        sc.logger.info('点击“高清拍摄”按钮')
-        WebDriverWait(sc.driver, 3, 1).until(
-            lambda x: x.find_element_by_xpath(iOS_elements.el_home_camera)).click()
+        sc.logger.info('点击“美颜趣拍”')
+        WebDriverWait(sc.driver, 5).until(
+            lambda x: x.find_element_by_name('美颜趣拍')).click()
+
+        sc.logger.info('切换拍摄模式:自拍美颜->高清相机')
+        el_normal = "高清相机"
+        ba.find_element_click('name', 5, el_normal)
+        sc.capture_screen(fun_name, self.img_path)
 
         sc.logger.info('点击设置按钮')
         time.sleep(1)
@@ -142,9 +172,14 @@ class TestCameraNormal(TestCase):
         sc.logger.info('拍摄-高清相机(前置1:1)')
         fun_name = 'test_camera_normal_shot'
 
-        sc.logger.info('点击“高清拍摄”按钮')
-        WebDriverWait(sc.driver, 3, 1).until(
-            lambda x: x.find_element_by_xpath(iOS_elements.el_home_camera)).click()
+        sc.logger.info('点击“美颜趣拍”')
+        WebDriverWait(sc.driver, 5).until(
+            lambda x: x.find_element_by_name('美颜趣拍')).click()
+
+        sc.logger.info('切换拍摄模式:自拍美颜->高清相机')
+        el_normal = "高清相机"
+        ba.find_element_click('name', 5, el_normal)
+        sc.capture_screen(fun_name, self.img_path)
 
         sc.logger.info('切换到前置')
         time.sleep(1)

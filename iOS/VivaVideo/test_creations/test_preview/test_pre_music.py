@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 """预览页面的music测试用例."""
-from iOS import script_ultils as sc
 import time
 from unittest import TestCase
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import TimeoutException
-from iOS import iOS_elements,base as ba
+from iOS.Base import base as ba, script_ultils as sc, iOS_elements
+
 
 class TestPreviewMusic(TestCase):
     """预览页面的music测试类."""
@@ -36,9 +36,9 @@ class TestPreviewMusic(TestCase):
         ba.open_draft(iOS_elements.el_studio_draft)
         sc.capture_screen(fun_name, self.img_path)
 
-        sc.logger.info('点击“主题”')
+        sc.logger.info('点击“主题·配乐”')
         WebDriverWait(sc.driver, 5, 1).until(
-            lambda x: x.find_element_by_name("主题")).click()
+            lambda x: x.find_element_by_name("主题·配乐")).click()
         sc.capture_screen(fun_name, self.img_path)
 
         sc.logger.info('配乐相关操作')
@@ -64,11 +64,12 @@ class TestPreviewMusic(TestCase):
             sc.swipe_by_ratio(start_x, start_bottom, 'up', 0.7, 300)
 
         sc.logger.info('下载音乐')
-        music_list = sc.driver.find_elements_by_name(iOS_elements.el_mus_download)
-        if len(music_list) >= 3:
-            music_list = music_list[:3]
-        for el_music in music_list:
-            el_music.click()
+        sc.driver.find_element_by_xpath(iOS_elements.el_mus_download).click()
+        # music_list = sc.driver.find_elements_by_name(iOS_elements.el_mus_download)
+        # if len(music_list) >= 3:
+        #     music_list = music_list[:3]
+        # for el_music in music_list:
+        #     el_music.click()
 
         sc.capture_screen(fun_name, self.img_path)
         sc.logger.info('音乐库-推荐音乐下载测试完成')
@@ -85,11 +86,12 @@ class TestPreviewMusic(TestCase):
         sc.capture_screen(fun_name, self.img_path)
 
         sc.logger.info('下载音乐')
-        music_list = sc.driver.find_elements_by_name(iOS_elements.el_mus_download)
-        if len(music_list) >= 3:
-            music_list = music_list[:3]
-        for el_music in music_list:
-            el_music.click()
+        sc.driver.find_element_by_xpath(iOS_elements.el_mus_download).click()
+        # music_list = sc.driver.find_elements_by_name(iOS_elements.el_mus_download)
+        # if len(music_list) >= 3:
+        #     music_list = music_list[:3]
+        # for el_music in music_list:
+        #     el_music.click()
 
         sc.capture_screen(fun_name, self.img_path)
         sc.logger.info('音乐库-其他分类音乐下载测试完成')
@@ -105,8 +107,12 @@ class TestPreviewMusic(TestCase):
         sc.capture_screen(fun_name, self.img_path)
 
         sc.logger.info('添加音乐')
-        WebDriverWait(sc.driver, 5, 1).until(
-            lambda x: x.find_element_by_xpath(iOS_elements.el_mus_play)).click()
+        try:
+            WebDriverWait(sc.driver, 10, 1).until(
+                lambda x: x.find_element_by_xpath(iOS_elements.el_mus_title1)).click()
+        except:
+            WebDriverWait(sc.driver, 10, 1).until(
+                lambda x: x.find_element_by_xpath(iOS_elements.el_mus_title2)).click()
         sc.capture_screen(fun_name, self.img_path)
 
         sc.logger.info('点击“添加”按钮')
@@ -158,7 +164,7 @@ class TestPreviewMusic(TestCase):
         sc.logger.info('添加音乐')
         try:
             WebDriverWait(sc.driver, 5, 1).until(
-                lambda x: x.find_element_by_xpath(iOS_elements.el_mus_play)).click()
+                lambda x: x.find_element_by_xpath(iOS_elements.el_mus_title1)).click()
         except TimeoutException:
             sc.logger.info('本地音乐不存在！')
             return True

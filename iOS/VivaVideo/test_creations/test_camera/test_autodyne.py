@@ -1,11 +1,10 @@
 # -*- coding: utf-8 -*-
 """camera美颜趣拍的测试用例."""
 from appium.webdriver.common.touch_action import TouchAction
-from iOS import script_ultils as sc
 import time
 from unittest import TestCase
 from selenium.webdriver.support.ui import WebDriverWait
-from iOS import iOS_elements,base as ba
+from iOS.Base import base as ba, script_ultils as sc, iOS_elements
 from selenium.common.exceptions import TimeoutException
 
 class TestCameraSelf(TestCase):
@@ -25,10 +24,10 @@ class TestCameraSelf(TestCase):
         time.sleep(3)
         sc.driver.close_app()
 
-    def test_camera_self(self):
-        """拍摄-自拍视频(全屏)."""
-        sc.logger.info('拍摄-美颜趣拍(全屏)')
-        fun_name = 'test_camera_self'
+    def test_self_01_sticker(self):
+        """拍摄-美颜趣拍(全屏)-人脸贴纸."""
+        sc.logger.info('拍摄-美颜趣拍(全屏)-人脸贴纸')
+        fun_name = 'test_01_sticker'
 
         sc.logger.info('点击“美颜趣拍”')
         ba.home_first_click("美颜趣拍")
@@ -62,11 +61,19 @@ class TestCameraSelf(TestCase):
         actions.tap(None, 200, 200).release().perform()
         sc.capture_screen(fun_name, self.img_path)
 
+        sc.logger.info('拍摄-美颜趣拍(全屏)-人脸贴纸测试完成')
+
+    def test_self_02_capture(self):
+        """拍摄-美颜趣拍(全屏)-拍摄."""
+        sc.logger.info('拍摄-美颜趣拍(全屏)-拍摄')
+        fun_name = 'test_02_capture'
+
         # 点拍
         sc.logger.info('拍摄一段5s的视频')
         btn_rec = WebDriverWait(sc.driver, 10).until(
             lambda x: x.find_element_by_xpath(iOS_elements.el_cp_self))
         ba.video_capture('点拍', btn_rec, 5)
+        sc.capture_screen(fun_name, self.img_path)
 
         sc.logger.info('取消限制弹窗')
         try:
@@ -77,4 +84,4 @@ class TestCameraSelf(TestCase):
 
         sc.logger.info('点击“存草稿”按钮')
         sc.driver.find_element_by_name("存草稿").click()
-        sc.logger.info('拍摄-美颜趣拍(全屏)测试完成')
+        sc.logger.info('拍摄-美颜趣拍(全屏)-拍摄测试完成')

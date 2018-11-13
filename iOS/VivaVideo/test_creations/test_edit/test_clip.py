@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 """镜头编辑相关操作的测试用例."""
-from iOS import script_ultils as sc
 import time
 from unittest import TestCase
 from selenium.webdriver.support.ui import WebDriverWait
-from iOS import iOS_elements,base as ba
-from selenium.common.exceptions import NoSuchElementException,TimeoutException
+from iOS.Base import base as ba, script_ultils as sc, iOS_elements
 
 
 class TestEditClip(TestCase):

@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 """创作页面内导出视频相关的测试用例."""
-from iOS import script_ultils as sc
 import time
 from unittest import TestCase
 from selenium.webdriver.support.ui import WebDriverWait
-from iOS import iOS_elements,base as ba
-from appium.webdriver.common.touch_action import TouchAction
-from selenium.common.exceptions import TimeoutException,NoSuchElementException
+from iOS.Base import base as ba, script_ultils as sc
+from selenium.common.exceptions import TimeoutException
+
 
 class TestCreationExport(TestCase):
     """
@@ -66,18 +65,18 @@ class TestCreationExport(TestCase):
         ba.export_video("高清 720P")
         sc.logger.info('导出-保存到相册-720P-二次导出测试完成')
 
-    def test_export_03_1080P(self):
-        """导出-保存到相册-1080P-三次导出."""
-        sc.logger.info('导出-保存到相册-1080P')
-        fun_name = 'test_export_third'
-
-        sc.logger.info('点击“保存到相册”')
-        ba.export_to_album()
-        sc.capture_screen(fun_name, self.img_path)
-
-        sc.logger.info('点击“超清 1080P”')
-        ba.export_video("超清 1080P")
-        sc.logger.info('导出-保存到相册-1080P测试完成')
+    # def test_export_03_1080P(self):
+    #     """导出-保存到相册-1080P-三次导出."""
+    #     sc.logger.info('导出-保存到相册-1080P')
+    #     fun_name = 'test_export_third'
+    #
+    #     sc.logger.info('点击“保存到相册”')
+    #     ba.export_to_album()
+    #     sc.capture_screen(fun_name, self.img_path)
+    #
+    #     sc.logger.info('点击“超清 1080P”')
+    #     ba.export_video("超清 1080P")
+    #     sc.logger.info('导出-保存到相册-1080P测试完成')
 
     def test_export_04_gif(self):
         """导出-保存到相册-GIF."""

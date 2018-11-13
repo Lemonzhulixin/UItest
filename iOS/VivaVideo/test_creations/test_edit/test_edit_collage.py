@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 """编辑页面画中画的基本操作测试用例."""
-from iOS import script_ultils as sc
 import time
 from unittest import TestCase
 from selenium.webdriver.support.ui import WebDriverWait
-from iOS import iOS_elements,base as ba
+from iOS.Base import base as ba, script_ultils as sc, iOS_elements
 
 
 class TestEditCollage(TestCase):
@@ -36,9 +35,9 @@ class TestEditCollage(TestCase):
         ba.open_draft(iOS_elements.el_studio_draft)
         sc.capture_screen(fun_name, self.img_path)
 
-        sc.logger.info('点击“效果”')
+        sc.logger.info('点击“素材·效果”')
         WebDriverWait(sc.driver, 5, 1).until(
-            lambda x: x.find_element_by_name("效果")).click()
+            lambda x: x.find_element_by_name("素材·效果")).click()
         sc.capture_screen(fun_name, self.img_path)
 
         sc.logger.info('点击"画中画"')

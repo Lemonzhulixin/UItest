@@ -2,10 +2,9 @@
 """用户空间登录的测试用例."""
 import time
 from unittest import TestCase
-from iOS import script_ultils as sc
+from iOS.Base import script_ultils as sc, iOS_elements
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
-from iOS import iOS_elements
 
 
 class TestUserLogin(TestCase):
@@ -38,28 +37,29 @@ class TestUserLogin(TestCase):
         except TimeoutException:
             sc.logger.info('已授权小影发送通知')
 
-        sc.logger.info('执行引导操作')
-        try:
-            time.sleep(2)
-            sc.driver.find_element_by_name("下一步").click()
-            sc.driver.find_element_by_name("下一步").click()
-            sc.driver.find_element_by_name("完成").click()
-        except NoSuchElementException:
-            sc.logger.info('已经执行过操作引导页面')
+        # sc.logger.info('执行引导操作')
+        # try:
+        #     time.sleep(2)
+        #     sc.driver.find_element_by_name("下一步").click()
+        #     sc.driver.find_element_by_name("下一步").click()
+        #     sc.driver.find_element_by_name("完成").click()
+        # except NoSuchElementException:
+        #     sc.logger.info('已经执行过操作引导页面')
 
         sc.logger.info('小影圈页面-关闭活动弹窗')
         try:
-            sc.driver.find_element_by_name("vivavideo purchase close n").click()
+            sc.driver.find_element_by_xpath(iOS_elements.home_clo).click()
         except NoSuchElementException:
             sc.logger.info('当前无或者已关闭活动弹窗')
 
         sc.logger.info('切换到"我"')
-        sc.driver.find_element_by_xpath(iOS_elements.btn_me).click()
+        WebDriverWait(sc.driver, 5, 1).until(
+            lambda x: x.find_element_by_xpath(iOS_elements.btn_me)).click()
         sc.capture_screen(fun_name, self.img_path)
 
         sc.logger.info('小影圈页面-关闭活动弹窗')
         try:
-            sc.driver.find_element_by_name("vivavideo purchase close n").click()
+            sc.driver.find_element_by_xpath(iOS_elements.home_clo).click()
         except NoSuchElementException:
             sc.logger.info('当前无或者已关闭活动弹窗')
 
@@ -82,14 +82,15 @@ class TestUserLogin(TestCase):
 
         sc.logger.info('点击"QQ账号"')
         try:
-            sc.driver.find_element_by_name("QQ帐号").click()
-        except NoSuchElementException:
+            WebDriverWait(sc.driver, 10).until(
+                lambda x: x.find_element_by_xpath('//XCUIElementTypeStaticText[@name="QQ登录"]')).click()
+        except TimeoutException:
             sc.driver.find_element_by_name("使用此账号登录").click()
 
         try:
             try:
                 WebDriverWait(sc.driver, 10).until(
-                    lambda x: x.find_element_by_name("登录")).click()
+                    lambda x: x.find_element_by_xpath("//XCUIElementTypeButton[@name='登录']")).click()
             except TimeoutException:
                 sc.driver.find_element_by_name("授权并登录").click()
             sc.logger.info('QQ账号已登录，直接点击"授权并登录"')

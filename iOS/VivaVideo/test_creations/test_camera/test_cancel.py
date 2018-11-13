@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
 """camera取消操作相关的测试用例."""
-from iOS import script_ultils as sc
 import time
 from unittest import TestCase
 from selenium.webdriver.support.ui import WebDriverWait
-from iOS import iOS_elements,base as ba
+from iOS.Base import base as ba, script_ultils as sc, iOS_elements
 from selenium.common.exceptions import TimeoutException
+from appium.webdriver.common.touch_action import TouchAction
+
+
 class TestCameraCancel(TestCase):
     """camera取消操作相关的测试类."""
 
@@ -31,9 +33,14 @@ class TestCameraCancel(TestCase):
         sc.logger.info('点击创作中心主按钮')
         ba.home_enter()
 
-        sc.logger.info('点击“高清拍摄”按钮')
-        WebDriverWait(sc.driver, 3, 1).until(
-            lambda x: x.find_element_by_xpath(iOS_elements.el_home_camera)).click()
+        sc.logger.info('点击“美颜趣拍”')
+        WebDriverWait(sc.driver, 5).until(
+            lambda x: x.find_element_by_name('美颜趣拍')).click()
+
+        sc.logger.info('切换拍摄模式:自拍美颜->高清相机')
+        el_normal = "高清相机"
+        ba.find_element_click('name', 5, el_normal)
+        sc.capture_screen(fun_name, self.img_path)
 
         # 点拍
         sc.logger.info('开始录制')
@@ -60,9 +67,14 @@ class TestCameraCancel(TestCase):
         sc.logger.info('拍摄-拍摄页保存')
         fun_name = 'test_cancel_save'
 
-        sc.logger.info('点击“高清拍摄”按钮')
-        WebDriverWait(sc.driver, 5, 1).until(
-            lambda x: x.find_element_by_xpath(iOS_elements.el_home_camera)).click()
+        sc.logger.info('点击“美颜趣拍”')
+        WebDriverWait(sc.driver, 5).until(
+            lambda x: x.find_element_by_name('美颜趣拍')).click()
+
+        sc.logger.info('切换拍摄模式:自拍美颜->高清相机')
+        el_normal = "高清相机"
+        ba.find_element_click('name', 5, el_normal)
+        sc.capture_screen(fun_name, self.img_path)
 
         # 点拍
         sc.logger.info('录制两段5s的视频')
@@ -73,6 +85,7 @@ class TestCameraCancel(TestCase):
             sc.capture_screen(fun_name, self.img_path)
             time.sleep(5)
             el_capture.click()
+            time.sleep(1)
 
         sc.logger.info('撤销第二段视频')
         for i in range(2):

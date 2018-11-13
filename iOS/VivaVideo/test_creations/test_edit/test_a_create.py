@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 """edit创建视频的测试用例."""
-from iOS import script_ultils as sc
 import time
 from unittest import TestCase
 from selenium.webdriver.support.ui import WebDriverWait
-from iOS import iOS_elements,base as ba
+from iOS.Base import base as ba, script_ultils as sc, iOS_elements
 from selenium.common.exceptions import TimeoutException
 
 
@@ -36,11 +35,15 @@ class TestEditCreate(TestCase):
         ba.home_enter()
 
         sc.logger.info('点击“视频剪辑”按钮')
-        WebDriverWait(sc.driver, 3, 1).until(
-            lambda x: x.find_element_by_xpath(iOS_elements.el_home_edit)).click()
+        try:
+            WebDriverWait(sc.driver, 5, 1).until(
+                lambda x: x.find_element_by_xpath(iOS_elements.el_home_edit)).click()
+        except TimeoutException:
+            WebDriverWait(sc.driver, 5, 1).until(
+                lambda x: x.find_element_by_xpath(iOS_elements.home_edit)).click()
 
         sc.logger.info('添加视频')
-        ba.gallery_clip_add('视频', 2)
+        ba.gallery_clip_add('视频', 3)
         sc.capture_screen(fun_name, self.img_path)
 
         sc.logger.info('切换到图片')
@@ -48,7 +51,7 @@ class TestEditCreate(TestCase):
         sc.driver.find_element_by_name("图片").click()
 
         sc.logger.info('添加图片')
-        ba.gallery_clip_add('图片', 2)
+        ba.gallery_clip_add('图片', 3)
         sc.capture_screen(fun_name, self.img_path)
 
         sc.logger.info('点击下一步')

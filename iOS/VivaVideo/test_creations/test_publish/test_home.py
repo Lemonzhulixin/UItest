@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 """小影创作主页面的测试用例."""
-from iOS import script_ultils as sc
 import time
 from unittest import TestCase
 from selenium.webdriver.support.ui import WebDriverWait
-from iOS import iOS_elements,base as ba
+from iOS.Base import base as ba, script_ultils as sc, iOS_elements
 from selenium.common.exceptions import TimeoutException,NoSuchElementException
 
 class TestHome(TestCase):
@@ -24,7 +23,7 @@ class TestHome(TestCase):
         time.sleep(3)
         sc.driver.close_app()
 
-    def test_home(self):
+    def test_home_01(self):
         """首页."""
         sc.logger.info('首页')
         fun_name = 'test_home'
@@ -58,7 +57,15 @@ class TestHome(TestCase):
             sc.logger.error('首页加载出错了')
             pass
 
+    sc.logger.info('首页-广告&内购icon测试完成')
+
+    def test_home_02(self):
+        """首页-工作室."""
+        sc.logger.info('首页')
+        fun_name = 'test_home_studio'
+
         sc.logger.info('点击"更多草稿"')
+        time.sleep(1)
         WebDriverWait(sc.driver, 5, 1).until(
             lambda x: x.find_element_by_name('更多草稿')).click()
 
@@ -74,10 +81,10 @@ class TestHome(TestCase):
         sc.logger.info('点击删除按钮')
         try:
             WebDriverWait(sc.driver, 3, 1).until(
-                lambda x: x.find_element_by_name(iOS_elements.btn_studio_del1)).click()
+                lambda x: x.find_element_by_xpath(iOS_elements.btn_studio_del1)).click()
         except TimeoutException:
             WebDriverWait(sc.driver, 3, 1).until(
-                lambda x: x.find_element_by_name(iOS_elements.btn_studio_del2)).click()
+                lambda x: x.find_element_by_xpath(iOS_elements.btn_studio_del2)).click()
         sc.capture_screen(fun_name, self.img_path)
 
         sc.logger.info('确定删除')
@@ -88,4 +95,4 @@ class TestHome(TestCase):
             sc.logger.info('视频正在上传，无法删除')
             return True
         sc.capture_screen(fun_name, self.img_path)
-        sc.logger.info('首页-我的工作室完成')
+        sc.logger.info('首页-我的工作室操作测试完成')

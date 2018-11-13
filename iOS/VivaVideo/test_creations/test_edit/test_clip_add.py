@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 """镜头添加相关操作的测试用例."""
-from iOS import script_ultils as sc
 import time
 from unittest import TestCase
 from selenium.webdriver.support.ui import WebDriverWait
-from iOS import iOS_elements,base as ba
+from iOS.Base import base as ba, script_ultils as sc, iOS_elements
 from selenium.common.exceptions import TimeoutException
 
 class TestEditClipsAdd(TestCase):
@@ -48,6 +47,16 @@ class TestEditClipsAdd(TestCase):
         sc.logger.info('退出预览页')
         WebDriverWait(sc.driver, 5, 1).until(
             lambda x: x.find_element_by_xpath(iOS_elements.el_pre_clo)).click()
+
+        sc.logger.info('确定退出')
+        WebDriverWait(sc.driver, 5, 1).until(
+            lambda x: x.find_element_by_name('保存并退出')).click()
+
+        try:
+            WebDriverWait(sc.driver, 10, 1).until(
+                lambda el: el.find_element_by_xpath('//XCUIElementTypeButton[@name="1"]')).click()
+        except TimeoutException:
+            sc.logger.info('返回首页后，无广告弹出')
         sc.logger.info('剪辑-添加镜头-相册添加测试完成')
 
     def test_clips_add_02(self):
@@ -56,7 +65,7 @@ class TestEditClipsAdd(TestCase):
         fun_name = 'test_edit_clips_shot'
 
         sc.logger.info('点击草稿封面')
-        ba.open_draft(iOS_elements.el_home_draft)
+        ba.open_draft(iOS_elements.el_studio_draft)
         sc.capture_screen(fun_name, self.img_path)
 
         sc.logger.info('点击“镜头编辑”')
@@ -72,6 +81,15 @@ class TestEditClipsAdd(TestCase):
         WebDriverWait(sc.driver, 5, 1).until(
             lambda x: x.find_element_by_xpath(iOS_elements.el_pre_clo)).click()
 
+        sc.logger.info('确定退出')
+        WebDriverWait(sc.driver, 5, 1).until(
+            lambda x: x.find_element_by_name('保存并退出')).click()
+
+        try:
+            WebDriverWait(sc.driver, 10, 1).until(
+                lambda el: el.find_element_by_xpath('//XCUIElementTypeButton[@name="1"]')).click()
+        except TimeoutException:
+            sc.logger.info('返回首页后，无广告弹出')
         sc.logger.info('剪辑-添加镜头-拍摄添加测试完成')
 
     def test_clips_add_03(self):
@@ -80,7 +98,7 @@ class TestEditClipsAdd(TestCase):
         fun_name = 'test_edit_clips_cancel'
 
         sc.logger.info('点击草稿封面')
-        ba.open_draft(iOS_elements.el_home_draft)
+        ba.open_draft(iOS_elements.el_studio_draft)
         sc.capture_screen(fun_name, self.img_path)
 
         sc.logger.info('点击“镜头编辑”')
@@ -102,7 +120,7 @@ class TestEditClipsAdd(TestCase):
         ba.gallery_clip_add('视频', 2)
 
         sc.logger.info('左上角返回')
-        sc.driver.find_element_by_name(iOS_elements.el_gallery_back).click()
+        sc.driver.find_element_by_name(iOS_elements.gallery_back).click()
         sc.capture_screen(fun_name, self.img_path)
 
         sc.logger.info('确定放弃')

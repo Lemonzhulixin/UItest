@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """编辑音乐相关操作测试用例."""
-from iOS import script_ultils as sc
 import time
 from unittest import TestCase
 from selenium.webdriver.support.ui import WebDriverWait
-from iOS import iOS_elements,base as ba
+from iOS.Base import base as ba, script_ultils as sc, iOS_elements
+from selenium.common.exceptions import NoSuchElementException,TimeoutException
 
 
 class TestEditMusic(TestCase):
@@ -36,9 +36,9 @@ class TestEditMusic(TestCase):
         ba.open_draft(iOS_elements.el_studio_draft)
         sc.capture_screen(fun_name, self.img_path)
 
-        sc.logger.info('点击“效果”')
+        sc.logger.info('点击“素材·效果”')
         WebDriverWait(sc.driver, 5, 1).until(
-            lambda x: x.find_element_by_name("效果")).click()
+            lambda x: x.find_element_by_name("素材·效果")).click()
         sc.capture_screen(fun_name, self.img_path)
 
         sc.logger.info("添加一段'配乐'")
@@ -52,6 +52,12 @@ class TestEditMusic(TestCase):
         sc.logger.info('点击“存草稿”按钮')
         WebDriverWait(sc.driver, 5, 1).until(
             lambda el: el.find_element_by_name("存草稿")).click()
+
+        try:
+            WebDriverWait(sc.driver, 10, 1).until(
+                lambda el: el.find_element_by_xpath('//XCUIElementTypeButton[@name="1"]')).click()
+        except TimeoutException:
+            sc.logger.info('返回首页后，无广告弹出')
         sc.logger.info('剪辑-多段配乐-添加测试完成')
 
     def test_edit_music_02(self):
@@ -71,9 +77,9 @@ class TestEditMusic(TestCase):
             ba.open_draft(iOS_elements.el_studio_draft)
             sc.capture_screen(fun_name, self.img_path)
 
-        sc.logger.info('点击“效果”')
+        sc.logger.info('点击“素材·效果”')
         WebDriverWait(sc.driver, 5, 1).until(
-            lambda x: x.find_element_by_name("效果")).click()
+            lambda x: x.find_element_by_name("素材·效果")).click()
         sc.capture_screen(fun_name, self.img_path)
 
         sc.logger.info('点击"多段配乐"')

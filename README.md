@@ -33,7 +33,7 @@ UItest Scripts为python3.x编写的脚本，依赖于appium执行相关操作，
 
 最新的稳定代码会推送到master分支上，直接clone即可使用。
 ```
-git@github.com:Lemonzhulixin/UItest.git
+git clone git@192.168.1.33:QAGroup/UItest.git
 ```
 
 ### 在本地环境运行脚本

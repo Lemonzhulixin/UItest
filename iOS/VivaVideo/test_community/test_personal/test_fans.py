@@ -1,12 +1,9 @@
 # -*- coding: utf-8 -*-
 """用户空间粉丝页面的测试用例"""
-from appium.webdriver.common.touch_action import TouchAction
-from iOS import script_ultils as sc
+from iOS.Base import script_ultils as sc
 import time
 from unittest import TestCase
 from selenium.webdriver.support.ui import WebDriverWait
-from iOS import iOS_elements,base as ba
-from selenium.common.exceptions import TimeoutException
 
 
 class TestUserFans(TestCase):

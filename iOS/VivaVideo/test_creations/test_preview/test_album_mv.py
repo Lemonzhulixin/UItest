@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 """相册mv测试用例."""
-from iOS import script_ultils as sc
 import time
 from unittest import TestCase
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import TimeoutException
-from iOS import iOS_elements,base as ba
+from iOS.Base import base as ba, script_ultils as sc, iOS_elements
+
 
 class TestPreviewAlbum(TestCase):
     """相册mv测试类."""
@@ -24,10 +24,10 @@ class TestPreviewAlbum(TestCase):
         time.sleep(3)
         sc.driver.close_app()
 
-    def test_preview_time(self):
-        """预览页-时长."""
-        sc.logger.info('预览页-时长')
-        fun_name = 'test_preview_time'
+    def test_preview_01(self):
+        """预览页-创建相册MV."""
+        sc.logger.info('预览页-创建相册MV')
+        fun_name = 'test_preview_MV'
 
         sc.logger.info('相册MV')
         ba.home_first_click('相册MV')
@@ -38,6 +38,11 @@ class TestPreviewAlbum(TestCase):
 
         sc.logger.info('点击下一步进入预览页')
         ba.find_element_click('predicate', 10, iOS_elements.el_gallery_next)
+
+    def test_preview_02(self):
+        """预览页-相册MV."""
+        sc.logger.info('预览页-相册MV')
+        fun_name = 'test_preview_edit'
 
         sc.logger.info('点击“镜头编辑”')
         WebDriverWait(sc.driver, 5, 1).until(
@@ -62,4 +67,4 @@ class TestPreviewAlbum(TestCase):
         sc.logger.info('点击“存草稿”按钮')
         WebDriverWait(sc.driver, 5, 1).until(
             lambda el: el.find_element_by_name("存草稿")).click()
-        sc.logger.info('预览页-时长测试完成')
+        sc.logger.info('预览页-相册MV测试完成')

@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 """比例与背景的基本操作测试用例."""
-from iOS import script_ultils as sc
 import time
 from unittest import TestCase
 from selenium.webdriver.support.ui import WebDriverWait
-from iOS import iOS_elements,base as ba
+from iOS.Base import base as ba, script_ultils as sc, iOS_elements
 from selenium.common.exceptions import TimeoutException
 
 class TestProportion(TestCase):
@@ -24,9 +23,9 @@ class TestProportion(TestCase):
         time.sleep(3)
         sc.driver.close_app()
 
-    def test_edit_proportion(self):
-        '''剪辑-比例&多选.'''
-        sc.logger.info('剪辑-比例')
+    def test_proportion_01(self):
+        '''剪辑-切换到比例.'''
+        sc.logger.info('剪辑-切换到比例')
         fun_name = 'test_edit_proportion'
 
         sc.logger.info('打开一个草稿视频')
@@ -43,7 +42,7 @@ class TestProportion(TestCase):
 
         sc.logger.info('点击"比例"')
         WebDriverWait(sc.driver, 5, 1).until(
-            lambda x: x.find_element_by_name("比例")).click()
+            lambda x: x.find_element_by_name("比例和背景")).click()
         sc.capture_screen(fun_name, self.img_path)
 
         sc.logger.info('切换到"比例tab"')
@@ -54,10 +53,23 @@ class TestProportion(TestCase):
         except TimeoutException:
             sc.logger.info('已经在"比例tab"')
 
+        sc.logger.info('剪辑-进入比例页面测试完成')
+
+    def test_proportion_02(self):
+        '''剪辑-切换1:1比例.'''
+        sc.logger.info('剪辑-切换1:1比例')
+        fun_name = 'test_edit_proportion_1:1'
+
         sc.logger.info('选择"1:1 比例"')
         el_proportion = "vivavideo_edit_icon_proportion_1_1"
         ba.clip_proportion(el_proportion)
         sc.capture_screen(fun_name, self.img_path)
+        sc.logger.info('剪辑-切换1:1比例测试完成')
+
+    def test_proportion_03(self):
+        '''剪辑-多选删除.'''
+        sc.logger.info('剪辑-多选删除')
+        fun_name = 'test_edit_clip_del'
 
         sc.logger.info('进入多选')
         try:
@@ -76,4 +88,4 @@ class TestProportion(TestCase):
         WebDriverWait(sc.driver, 5, 1).until(
             lambda el: el.find_element_by_name("存草稿")).click()
         sc.capture_screen(fun_name, self.img_path)
-        sc.logger.info('剪辑-比例测试完成')
+        sc.logger.info('剪辑-多选删除测试完成')
