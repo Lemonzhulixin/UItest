@@ -30,23 +30,24 @@ def mkdir(path):
 def test_init():
     """测试初始化."""
     print('Test init begin!!!')
-    local_time = time.strftime('%Y_%m_%d_%H_%M_%S', time.localtime())
-    #path_list = ['./Report/', local_time, '/']
-    path_list = ['/Users/iOS_Team/.jenkins/workspace/iOS_UI_VivaVideo/UItest/Report/', local_time, '/']
+    path_list = ['./Results/']
 
-    capture_list = path_list + ['screenshots/']
+    capture_list = path_list + ['screenShots/']
     log_list = path_list + ['logs/']
-    report_list = path_list + ['reports/']
+    report_list = path_list + ['report/']
+    crash_list = path_list + ['crashInfo/']
 
     capture_dir = ''.join(capture_list)
     log_dir = ''.join(log_list)
     report_dir = ''.join(report_list)
+    crash_dir = ''.join(crash_list)
 
     mkdir(capture_dir)
     mkdir(log_dir)
     mkdir(report_dir)
+    mkdir(crash_dir)
 
-    return capture_dir, log_dir, report_dir
+    return capture_dir, log_dir, report_dir, crash_dir
 
 # 日志格式
 def logger_init():
@@ -66,7 +67,7 @@ def logger_init():
             },
             'file': {
                 'class': 'logging.FileHandler',
-                'filename': path_lists[1] + 'logging.log',
+                'filename': path_lists[1] + 'output.log',
                 'level': 'DEBUG',
                 'formatter': 'simple',
                 'encoding': 'utf-8'

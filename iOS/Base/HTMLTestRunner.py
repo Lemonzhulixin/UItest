@@ -177,7 +177,7 @@ class Template_mixin(object):
     2: 'error',
     }
 
-    DEFAULT_TITLE = 'Unit Test Report'
+    DEFAULT_TITLE = 'Unit Test Results'
     DEFAULT_DESCRIPTION = ''
 
     # ------------------------------------------------------------------------
@@ -410,7 +410,7 @@ a.popup_link:hover {
 
 
     # ------------------------------------------------------------------------
-    # Report
+    # Results
     #
 
     REPORT_TMPL = """
@@ -511,7 +511,7 @@ a.popup_link:hover {
 TestResult = unittest.TestResult
 
 class _TestResult(TestResult):
-    # note: _TestResult is a pure representation of results.
+    # note: _TestResult is a pure representation of report.
     # It lacks the output and reporting ability compares to unittest._TextTestResult.
 
     def __init__(self, verbosity=1):

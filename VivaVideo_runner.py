@@ -1,10 +1,10 @@
 #coding=utf-8
-import os
-import time
 import unittest
 from iOS.Base import script_ultils as sc, HTMLTestRunner
-from iOS.iOSCrashAnalysis import FileOperate
+from iOS.iOSCrashAnalysis import CrashExport, FileOperate
 from iOS.Base.script_params import *
+import os
+from iOS.Base.resultCollect import ResultCollect
 
 PATH = lambda p: os.path.abspath(
     os.path.join(os.path.dirname(__file__), p)
@@ -30,7 +30,9 @@ def RunTest(TestCases):
         suite5 = unittest.TestLoader().discover(sc_path5, pattern="*.py", top_level_dir=None)
         suite6 = unittest.TestLoader().discover(sc_path6, pattern="*.py", top_level_dir=None)
 
-        suite = unittest.TestSuite([suite1, suite2, suite3, suite4, suite5, suite6])
+        suite = unittest.TestSuite(suite1)
+
+        # suite = unittest.TestSuite([suite1, suite2, suite3, suite4, suite5, suite6])
 
     elif TestCases == 'stress':
         # 用例路径
@@ -46,10 +48,14 @@ def RunTest(TestCases):
 
 if __name__ == '__main__':
     print("xxxxxxxxxxxxxxxxxxxxxxxxxxx Start Test xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
-    now_time = time.strftime("%Y%m%d%H%M", time.localtime(time.time()))
+    log_path = sc.path_lists[1]
     report_path = sc.path_lists[2]
-    filename = report_path + now_time + ".html"
-    fp = open(filename, 'wb+')
+    crash_path = sc.path_lists[3]
+
+    reportFile = report_path + "report.html"
+    logFile = log_path + 'output.log'
+
+    fp = open(reportFile, 'wb+')
     runner = HTMLTestRunner.HTMLTestRunner(
         stream=fp,
         title='VivaVideo UI（iOS） 测试结果',
@@ -62,52 +68,53 @@ if __name__ == '__main__':
     time.sleep(1)
     cmd_kill = 'pkill node'
     os.system(cmd_kill)
-    print("xxxxxxxxxxxxxxxxxxxxxxxxx Finish Test xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
 
-    print("============开始导出crashreport==========")
+    print('解析crash report')
     find_str = 'XiaoYing-'  # 待测app crashreport文件关键字
     file_format1 = [".ips"]  # 导出的crash文件后缀
     file_format2 = [".crash"]  # 解析后的crash文件后缀
+    CrashExport.CrashExport(find_str, file_format1, file_format2)
 
-    reportPath = PATH("/Users/iOS_Team/.jenkins/workspace/iOS_UI_VivaVideo/UItest/CrashInfo/iOS/")
-    beforePath = os.path.join(reportPath + '/Before')
-    if not os.path.exists(beforePath):
-        os.makedirs(beforePath)
+    print('测试结果数据解析')
+    results = ResultCollect().get_report_info(reportFile)
+    print(results)
 
-    afterPath = os.path.join(reportPath + '/After')
+    log = os.path.abspath(logFile)
+    print(log)
+
+    report = os.path.abspath(reportFile)
+    print(report)
+
+    deviceName = device_list[0][0]
+    deviceID = device_list[0][1]
+    print(deviceName, deviceID)
+
+    afterPath = os.path.join(crash_path + 'After')
     if not os.path.exists(afterPath):
         os.makedirs(afterPath)
-    print("导出设备中的所有crash文件")
-    # for i in range(0, len(l_devices)):
-    #     duid = l_devices[i]["devices"]
-    #     exportReport = 'idevicecrashreport -u ' + duid + ' ' + beforePath + '/'
-    #     print(exportReport)
-    #     os.system(exportReport) #导出设备中的crash
 
-    duid = device_list[0][1]
-    exportReport = 'idevicecrashreport -u ' + duid + ' ' + beforePath + '/'
-    print(exportReport)
-    os.system(exportReport)  # 导出设备中的crash
-
-    print("============开始过滤并解析待测app相关crashreport==========")
-    # .bash_profile中配置以下环境，记得重启下mac
-    # DEVELOPER_DIR="/Applications/XCode.app/Contents/Developer"
-    # export DEVELOPER_DIR
+    print("ipsFiles文件")
+    ipsFiles = []
     f = FileOperate.FileFilt()
-    f.FindFile(find_str, file_format1, beforePath)
+    f.FindFile(find_str, file_format1, afterPath)
+    if len(f.fileList) > 0:
+        mailpath = '/Users/zhulixin/Desktop/UItest/iOS/Base/crash_mail.py'
+        cmd_mail = 'python ' + mailpath + ' "fail" "VivaVideo iOS UI autotest failed" "出现了新的crash，查看地址: http://10.0.35.21:8080/ ，路径:' + afterPath + '"'
+        print('发送邮件')
+        os.system(cmd_mail)
+
     for file in f.fileList:
-        inputFile = os.path.abspath(file)  # 绝对路径
-        # print(inputFile)
-        analysisPath = PATH("/Users/iOS_Team/.jenkins/workspace/iOS_UI_VivaVideo/UItest/iOS/iOSCrashAnalysis/")
-        cmd_analysis = 'python3 ' + analysisPath + '/BaseIosCrash.py' + ' -i ' + inputFile
-        # print(cmd_analysis)
-        os.system(cmd_analysis)
+        ipsFiles.append(os.path.abspath(file))
+    print('ipsFiles', ipsFiles)
 
-    # 移动解析完成的crashreport和原始ips文件到新的文件夹
-    f.MoveFile(find_str, file_format1, beforePath, afterPath)
-    f.MoveFile(find_str, file_format2, beforePath, afterPath)
-    print("============crashreport解析完成==========")
+    # print("crashFiles文件")
+    # crashFiles = []
+    # f.FindFile(find_str, file_format2, afterPath)
+    # for file in f.fileList:
+    #     crashFiles.append(os.path.abspath(file))
+    # print('crashFiles', crashFiles)
 
-    # 删除所有解析之前的crash文件，若不想删除，注掉即可
-    print("============删除所有解析之前的crash文件==========")
-    f.DelFolder(beforePath)
+    # print("删除旧的crash文件")
+    # f.DelFolder(afterPath)
+
+    print("xxxxxxxxxxxxxxxxxxxxxxxxx Finish Test xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")

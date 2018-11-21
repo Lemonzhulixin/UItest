@@ -5,6 +5,10 @@ import subprocess
 import time
 from concurrent.futures import ThreadPoolExecutor
 
+PATH = lambda p: os.path.abspath(
+    os.path.join(os.path.dirname(__file__), p)
+)
+
 class myserver(object):
 
     def isOpen(self,ip, port):  # 判断端口是否被占用
@@ -29,15 +33,16 @@ class myserver(object):
         """启动appium服务
         :return port_list"""
         print('start appium service')
-
-        now_time = time.strftime("%Y%m%d%H%M%S", time.localtime(time.time()))
         cmd_appium = 'appium -p ' + str(port) + ' --session-override'
         print(cmd_appium)
+
         try:
             #启动appium服务
-            appiumlog = open('/Users/iOS_Team/.jenkins/workspace/iOS_UI_VivaVideo/UItest/Report/' + now_time + '_appiumlog.txt', 'w')
+            logpath = ''.join(["./Results/logs/"])
+            if not os.path.exists(logpath):
+                os.makedirs(logpath)
+            appiumlog = open(logpath + 'appiumlog.log', 'w')
             subprocess.Popen(cmd_appium, shell=True, stdout=appiumlog)
-            #subprocess.run(cmd_appium, shell=True)
         except Exception as msg:
             print('error message:', msg)
             raise
@@ -45,7 +50,6 @@ class myserver(object):
     def kill_appium(self):
         cmd_kill = 'pkill node'
         subprocess.run(cmd_kill, shell=True)
-        # os.system(cmd_kill)
         print('close appium service')
 
     executor = ThreadPoolExecutor(6)

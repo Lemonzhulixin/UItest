@@ -23,157 +23,157 @@ class TestTemplate(TestCase):
         time.sleep(3)
         sc.driver.close_app()
 
-    # def test_template_01_theme(self):
-    #     """素材中心-主题."""
-    #     sc.logger.info('素材中心-主题')
-    #     fun_name = 'test_template_theme'
-    #
-    #     ba.home_first_click('素材中心')
-    #     sc.capture_screen(fun_name, self.img_path)
-    #
-    #     sc.logger.info('点击顶部banner')
-    #     WebDriverWait(sc.driver, 5, 1).until(
-    #         lambda el: el.find_element_by_xpath(iOS_elements.el_banner)).click()
-    #
-    #     sc.logger.info('返回')
-    #     try:
-    #         WebDriverWait(sc.driver, 5, 1).until(
-    #             lambda el: el.find_element_by_xpath('//XCUIElementTypeButton[@name="vivavideo com nav back n"]')).click()
-    #     except TimeoutException:
-    #         sc.driver.find_element_by_xpath('//XCUIElementTypeButton[@name="vivavideo back n"]').click()
-    #
-    #     sc.logger.info('点击“主题”')
-    #     WebDriverWait(sc.driver, 5, 1).until(
-    #         lambda x: x.find_element_by_name('主题')).click()
-    #     sc.capture_screen(fun_name, self.img_path)
-    #
-    #     sc.logger.info('下载并使用主题')
-    #     ba.material_used(iOS_elements.el_store_download1)
-    #     sc.capture_screen(fun_name, self.img_path)
-    #
-    #     sc.logger.info('添加"视频"')
-    #     ba.gallery_clip_add('视频', 2)
-    #
-    #     sc.logger.info('点击下一步进入预览页')
-    #     ba.find_element_click('predicate', 10, iOS_elements.el_gallery_next)
-    #     sc.capture_screen(fun_name, self.img_path)
-    #
-    #     sc.logger.info('取消限制弹窗')
-    #     try:
-    #         WebDriverWait(sc.driver, 3, 1).until(
-    #             lambda x: x.find_element_by_name(iOS_elements.el_cancel)).click()
-    #     except TimeoutException:
-    #         sc.logger.info('限制弹窗已取消')
-    #
-    #     sc.logger.info('返回创作页')
-    #     ba.back_to_home()
-    #
-    #     WebDriverWait(sc.driver, 5, 1).until(
-    #         lambda x: x.find_element_by_name('素材中心')).click()
-    #
-    #     sc.logger.info('点击“主题”')
-    #     WebDriverWait(sc.driver, 5, 1).until(
-    #         lambda x: x.find_element_by_name('主题')).click()
-    #
-    #     sc.logger.info('删除下载的主题')
-    #     ba.material_manager('主题', iOS_elements.el_store_del)
-    #     sc.capture_screen(fun_name, self.img_path)
-    #     sc.logger.info('素材中心-主题测试完成')
-    #
-    # def test_template_02_filter(self):
-    #     """素材中心-滤镜."""
-    #     sc.logger.info('素材中心-滤镜')
-    #     fun_name = 'test_template_filter'
-    #
-    #     sc.logger.info('点击“滤镜”')
-    #     WebDriverWait(sc.driver, 5, 1).until(
-    #         lambda x: x.find_element_by_name('滤镜')).click()
-    #     sc.capture_screen(fun_name, self.img_path)
-    #
-    #     sc.logger.info('下载并使用滤镜')
-    #     ba.material_used(iOS_elements.el_store_download2)
-    #     sc.capture_screen(fun_name, self.img_path)
-    #
-    #     sc.logger.info('添加"视频"')
-    #     ba.gallery_clip_add('视频', 2)
-    #
-    #     sc.logger.info('点击下一步进入预览页')
-    #     ba.find_element_click('predicate', 10, iOS_elements.el_gallery_next)
-    #     sc.capture_screen(fun_name, self.img_path)
-    #
-    #     sc.logger.info('点击“确认”')
-    #     sc.driver.find_element_by_name(iOS_elements.el_confirm_btn).click()
-    #
-    #     sc.logger.info('返回创作页')
-    #     ba.back_to_home()
-    #
-    #     WebDriverWait(sc.driver, 5, 1).until(
-    #         lambda x: x.find_element_by_name('素材中心')).click()
-    #
-    #     sc.logger.info('点击“滤镜”')
-    #     WebDriverWait(sc.driver, 5, 1).until(
-    #         lambda x: x.find_element_by_name('滤镜')).click()
-    #     sc.capture_screen(fun_name, self.img_path)
-    #
-    #     sc.logger.info('删除下载的滤镜')
-    #     ba.material_manager('滤镜', iOS_elements.el_store_del)
-    #     sc.capture_screen(fun_name, self.img_path)
-    #     sc.logger.info('素材中心-滤镜测试完成')
+    def test_template_01_theme(self):
+        """素材中心-主题."""
+        sc.logger.info('素材中心-主题')
+        fun_name = 'test_template_theme'
 
-    # def test_template_03_fx(self):
-    #     """素材中心-特效."""
-    #     sc.logger.info('素材中心-特效')
-    #     fun_name = 'test_template_effect'
-    #
-    #     sc.logger.info('点击“特效”')
-    #     WebDriverWait(sc.driver, 5, 1).until(
-    #         lambda x: x.find_element_by_name('特效')).click()
-    #     sc.capture_screen(fun_name, self.img_path)
-    #
-    #     sc.logger.info('下拉刷新')
-    #     ba.refresh('down', 0.3, 500, 1)
-    #
-    #     try:
-    #         sc.logger.info('点击"使用"')
-    #         WebDriverWait(sc.driver, 5, 1).until(
-    #             lambda x: x.find_element_by_name("使用")).click()
-    #     except TimeoutException:
-    #         sc.logger.info('该素材尚未下载，下载后再"使用"')
-    #         time.sleep(1)
-    #         fx_cover = '//*/XCUIElementTypeCollectionView/*/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeButton'
-    #         WebDriverWait(sc.driver, 5, 1).until(
-    #             lambda x: x.find_element_by_xpath(fx_cover)).click()
-    #
-    #         WebDriverWait(sc.driver, 5, 1).until(
-    #             lambda x: x.find_element_by_name('下载')).click()
-    #
-    #         WebDriverWait(sc.driver, 10, 1).until(
-    #             lambda x: x.find_element_by_name("使用")).click()
-    #
-    #     sc.logger.info('添加"视频"')
-    #     ba.gallery_clip_add('视频', 2)
-    #
-    #     sc.logger.info('点击下一步进入预览页')
-    #     ba.find_element_click('predicate', 10, iOS_elements.el_gallery_next)
-    #     sc.capture_screen(fun_name, self.img_path)
-    #
-    #     sc.logger.info('点击“确认”')
-    #     ba.effect_add_confirm()
-    #
-    #     sc.logger.info('返回创作页')
-    #     ba.back_to_home()
-    #
-    #     ba.home_first_click('素材中心')
-    #
-    #     sc.logger.info('点击“特效”')
-    #     WebDriverWait(sc.driver, 5, 1).until(
-    #         lambda x: x.find_element_by_name('特效')).click()
-    #     sc.capture_screen(fun_name, self.img_path)
-    #
-    #     sc.logger.info('删除下载的特效')
-    #     ba.material_manager('特效', iOS_elements.el_store_del)
-    #     sc.capture_screen(fun_name, self.img_path)
-    #     sc.logger.info('素材中心-特效测试完成')
+        ba.home_first_click('素材中心')
+        sc.capture_screen(fun_name, self.img_path)
+
+        sc.logger.info('点击顶部banner')
+        WebDriverWait(sc.driver, 5, 1).until(
+            lambda el: el.find_element_by_xpath(iOS_elements.el_banner)).click()
+
+        sc.logger.info('返回')
+        try:
+            WebDriverWait(sc.driver, 5, 1).until(
+                lambda el: el.find_element_by_xpath('//XCUIElementTypeButton[@name="vivavideo com nav back n"]')).click()
+        except TimeoutException:
+            sc.driver.find_element_by_xpath('//XCUIElementTypeButton[@name="vivavideo back n"]').click()
+
+        sc.logger.info('点击“主题”')
+        WebDriverWait(sc.driver, 5, 1).until(
+            lambda x: x.find_element_by_name('主题')).click()
+        sc.capture_screen(fun_name, self.img_path)
+
+        sc.logger.info('下载并使用主题')
+        ba.material_used(iOS_elements.el_store_download1)
+        sc.capture_screen(fun_name, self.img_path)
+
+        sc.logger.info('添加"视频"')
+        ba.gallery_clip_add('视频', 2)
+
+        sc.logger.info('点击下一步进入预览页')
+        ba.find_element_click('predicate', 10, iOS_elements.el_gallery_next)
+        sc.capture_screen(fun_name, self.img_path)
+
+        sc.logger.info('取消限制弹窗')
+        try:
+            WebDriverWait(sc.driver, 3, 1).until(
+                lambda x: x.find_element_by_name(iOS_elements.el_cancel)).click()
+        except TimeoutException:
+            sc.logger.info('限制弹窗已取消')
+
+        sc.logger.info('返回创作页')
+        ba.back_to_home()
+
+        WebDriverWait(sc.driver, 5, 1).until(
+            lambda x: x.find_element_by_name('素材中心')).click()
+
+        sc.logger.info('点击“主题”')
+        WebDriverWait(sc.driver, 5, 1).until(
+            lambda x: x.find_element_by_name('主题')).click()
+
+        sc.logger.info('删除下载的主题')
+        ba.material_manager('主题', iOS_elements.el_store_del)
+        sc.capture_screen(fun_name, self.img_path)
+        sc.logger.info('素材中心-主题测试完成')
+
+    def test_template_02_filter(self):
+        """素材中心-滤镜."""
+        sc.logger.info('素材中心-滤镜')
+        fun_name = 'test_template_filter'
+
+        sc.logger.info('点击“滤镜”')
+        WebDriverWait(sc.driver, 5, 1).until(
+            lambda x: x.find_element_by_name('滤镜')).click()
+        sc.capture_screen(fun_name, self.img_path)
+
+        sc.logger.info('下载并使用滤镜')
+        ba.material_used(iOS_elements.el_store_download2)
+        sc.capture_screen(fun_name, self.img_path)
+
+        sc.logger.info('添加"视频"')
+        ba.gallery_clip_add('视频', 2)
+
+        sc.logger.info('点击下一步进入预览页')
+        ba.find_element_click('predicate', 10, iOS_elements.el_gallery_next)
+        sc.capture_screen(fun_name, self.img_path)
+
+        sc.logger.info('点击“确认”')
+        sc.driver.find_element_by_name(iOS_elements.el_confirm_btn).click()
+
+        sc.logger.info('返回创作页')
+        ba.back_to_home()
+
+        WebDriverWait(sc.driver, 5, 1).until(
+            lambda x: x.find_element_by_name('素材中心')).click()
+
+        sc.logger.info('点击“滤镜”')
+        WebDriverWait(sc.driver, 5, 1).until(
+            lambda x: x.find_element_by_name('滤镜')).click()
+        sc.capture_screen(fun_name, self.img_path)
+
+        sc.logger.info('删除下载的滤镜')
+        ba.material_manager('滤镜', iOS_elements.el_store_del)
+        sc.capture_screen(fun_name, self.img_path)
+        sc.logger.info('素材中心-滤镜测试完成')
+
+    def test_template_03_fx(self):
+        """素材中心-特效."""
+        sc.logger.info('素材中心-特效')
+        fun_name = 'test_template_effect'
+
+        sc.logger.info('点击“特效”')
+        WebDriverWait(sc.driver, 5, 1).until(
+            lambda x: x.find_element_by_name('特效')).click()
+        sc.capture_screen(fun_name, self.img_path)
+
+        sc.logger.info('下拉刷新')
+        ba.refresh('down', 0.3, 500, 1)
+
+        try:
+            sc.logger.info('点击"使用"')
+            WebDriverWait(sc.driver, 5, 1).until(
+                lambda x: x.find_element_by_name("使用")).click()
+        except TimeoutException:
+            sc.logger.info('该素材尚未下载，下载后再"使用"')
+            time.sleep(1)
+            fx_cover = '//*/XCUIElementTypeCollectionView/*/XCUIElementTypeOther/XCUIElementTypeOther/XCUIElementTypeButton'
+            WebDriverWait(sc.driver, 5, 1).until(
+                lambda x: x.find_element_by_xpath(fx_cover)).click()
+
+            WebDriverWait(sc.driver, 5, 1).until(
+                lambda x: x.find_element_by_name('下载')).click()
+
+            WebDriverWait(sc.driver, 10, 1).until(
+                lambda x: x.find_element_by_name("使用")).click()
+
+        sc.logger.info('添加"视频"')
+        ba.gallery_clip_add('视频', 2)
+
+        sc.logger.info('点击下一步进入预览页')
+        ba.find_element_click('predicate', 10, iOS_elements.el_gallery_next)
+        sc.capture_screen(fun_name, self.img_path)
+
+        sc.logger.info('点击“确认”')
+        ba.effect_add_confirm()
+
+        sc.logger.info('返回创作页')
+        ba.back_to_home()
+
+        ba.home_first_click('素材中心')
+
+        sc.logger.info('点击“特效”')
+        WebDriverWait(sc.driver, 5, 1).until(
+            lambda x: x.find_element_by_name('特效')).click()
+        sc.capture_screen(fun_name, self.img_path)
+
+        sc.logger.info('删除下载的特效')
+        ba.material_manager('特效', iOS_elements.el_store_del)
+        sc.capture_screen(fun_name, self.img_path)
+        sc.logger.info('素材中心-特效测试完成')
 
     def test_template_04_font(self):
         """素材中心-字体."""
