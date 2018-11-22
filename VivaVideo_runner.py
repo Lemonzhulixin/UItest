@@ -1,7 +1,8 @@
 #coding=utf-8
 import unittest
 from iOS.Base import script_ultils as sc, HTMLTestRunner
-from iOS.iOSCrashAnalysis import CrashExport, FileOperate
+from iOS.iOSCrashAnalysis.CrashExport import *
+from iOS.iOSCrashAnalysis.FileOperate import *
 from iOS.Base.script_params import *
 import os
 from iOS.Base.resultCollect import ResultCollect
@@ -73,46 +74,39 @@ if __name__ == '__main__':
     find_str = 'XiaoYing-'  # 待测app crashreport文件关键字
     file_format1 = [".ips"]  # 导出的crash文件后缀
     file_format2 = [".crash"]  # 解析后的crash文件后缀
-    CrashExport.CrashExport(find_str, file_format1, file_format2)
+    CrashExport(find_str, file_format1, file_format2)
 
-    print('测试结果数据解析')
-    results = ResultCollect().get_report_info(reportFile)
-    print(results)
+    # print('测试结果数据解析')
+    # results = ResultCollect().get_report_info(reportFile)
+    # print(results)
+    #
+    # log = os.path.abspath(logFile)
+    # print(log)
+    #
+    # report = os.path.abspath(reportFile)
+    # print(report)
+    #
+    # deviceName = device_list[0][0]
+    # deviceID = device_list[0][1]
+    # print(deviceName, deviceID)
 
-    log = os.path.abspath(logFile)
-    print(log)
+    # afterPath = os.path.join(crash_path + 'After')
+    # if not os.path.exists(afterPath):
+    #     os.makedirs(afterPath)
 
-    report = os.path.abspath(reportFile)
-    print(report)
+    # print("输出所有crash文件路径")
+    # f = FileOperate.FileFilt()
+    # f.FilePath(afterPath)
 
-    deviceName = device_list[0][0]
-    deviceID = device_list[0][1]
-    print(deviceName, deviceID)
 
-    afterPath = os.path.join(crash_path + 'After')
-    if not os.path.exists(afterPath):
-        os.makedirs(afterPath)
-
-    print("ipsFiles文件")
-    ipsFiles = []
-    f = FileOperate.FileFilt()
-    f.FindFile(find_str, file_format1, afterPath)
-    if len(f.fileList) > 0:
-        mailpath = '/Users/zhulixin/Desktop/UItest/iOS/Base/crash_mail.py'
-        cmd_mail = 'python ' + mailpath + ' "fail" "VivaVideo iOS UI autotest failed" "出现了新的crash，查看地址: http://10.0.35.21:8080/ ，路径:' + afterPath + '"'
-        print('发送邮件')
-        os.system(cmd_mail)
-
-    for file in f.fileList:
-        ipsFiles.append(os.path.abspath(file))
-    print('ipsFiles', ipsFiles)
-
-    # print("crashFiles文件")
-    # crashFiles = []
-    # f.FindFile(find_str, file_format2, afterPath)
+    # ipsFiles = []
+    # f = FileOperate.FileFilt()
+    # f.FindFile(find_str, file_format1, afterPath)
+    #
     # for file in f.fileList:
-    #     crashFiles.append(os.path.abspath(file))
-    # print('crashFiles', crashFiles)
+    #     ipsFiles.append(os.path.abspath(file))
+    # print('ipsFiles', ipsFiles)
+
 
     # print("删除旧的crash文件")
     # f.DelFolder(afterPath)

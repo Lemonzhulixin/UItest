@@ -1,5 +1,6 @@
 import os
 import shutil
+import re
 
 class FileFilt:
     fileList = []
@@ -45,12 +46,24 @@ class FileFilt:
                 shutil.rmtree(filePath, True)
                 print("Directory: " + filePath + " was removed!")
 
+    def FilePath(self, file_path):
+        for cur_dir, included_file in os.walk(file_path):
+            if included_file:
+                for file in included_file:
+                        print(cur_dir + "\\" + file)
+
+
 if __name__ == "__main__":
     pass
-    find_str = 'XiaoYing-'
-    file_format = '.ips'
-    b = FileFilt()
-    b.FindFile(find_str,file_format, path="/Users/zhulixin/new")
-    for file in b.fileList:
-        filepath = os.path.abspath(file) #绝对路径
-        print(filepath)
+
+    afterPath = '/Users/zhulixin/Desktop/UItest/Results/crashInfo/After/'
+    f = FileFilt()
+    f.FilePath(afterPath)
+
+    # find_str = 'XiaoYing-'
+    # file_format = '.ips'
+    # b = FileFilt()
+    # b.FindFile(find_str,file_format, path="/Users/zhulixin/new")
+    # for file in b.fileList:
+    #     filepath = os.path.abspath(file) #绝对路径
+    #     print(filepath)

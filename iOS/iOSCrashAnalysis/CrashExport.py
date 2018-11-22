@@ -27,6 +27,13 @@ def CrashExport(find_str, format1, format2):
     print("============开始过滤并解析待测app相关crashreport==========")
     f = FileOperate.FileFilt()
     f.FindFile(find_str, format1, beforePath)
+
+    if len(f.fileList) > 0:
+        mailpath = '/Users/zhulixin/Desktop/UItest/iOS/Base/crash_mail.py'
+        cmd_mail = 'python ' + mailpath + ' "fail" "VivaVideo iOS UI autotest failed" "出现了新的crash，查看地址: http://10.0.35.21:8080/job/iOS_UI_VivaVideo/ws/UItest/Results/crashInfo/After/"'
+        print('发送邮件')
+        os.system(cmd_mail)
+
     for file in f.fileList:
         inputFile = os.path.abspath(file)
         analysisPath = ''.join(["./iOS/iOSCrashAnalysis/"])
