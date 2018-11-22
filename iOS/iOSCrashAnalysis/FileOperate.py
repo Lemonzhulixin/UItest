@@ -56,9 +56,11 @@ class FileFilt:
 if __name__ == "__main__":
     pass
 
-    afterPath = '/Users/zhulixin/Desktop/UItest/Results/crashInfo/After/'
-    f = FileFilt()
-    f.FilePath(afterPath)
+    afterPath = '/Users/zhulixin/Desktop/UItest/Results/crashInfo/Before'
+    # f = FileFilt()
+    # f.FilePath(afterPath)
+
+    os.rmdir(afterPath)
 
     # find_str = 'XiaoYing-'
     # file_format = '.ips'

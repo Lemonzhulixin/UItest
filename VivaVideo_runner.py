@@ -56,19 +56,19 @@ if __name__ == '__main__':
     reportFile = report_path + "report.html"
     logFile = log_path + 'output.log'
 
-    fp = open(reportFile, 'wb+')
-    runner = HTMLTestRunner.HTMLTestRunner(
-        stream=fp,
-        title='VivaVideo UI（iOS） 测试结果',
-        description='详细测试报告',
-        verbosity = 2
-    )
-    runner.run(RunTest('full'))
-    fp.close()
-    print('关闭appium')
-    time.sleep(1)
-    cmd_kill = 'pkill node'
-    os.system(cmd_kill)
+    # fp = open(reportFile, 'wb+')
+    # runner = HTMLTestRunner.HTMLTestRunner(
+    #     stream=fp,
+    #     title='VivaVideo UI（iOS） 测试结果',
+    #     description='详细测试报告',
+    #     verbosity = 2
+    # )
+    # runner.run(RunTest('full'))
+    # fp.close()
+    # print('关闭appium')
+    # time.sleep(1)
+    # cmd_kill = 'pkill node'
+    # os.system(cmd_kill)
 
     print('解析crash report')
     find_str = 'XiaoYing-'  # 待测app crashreport文件关键字

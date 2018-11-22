@@ -11,11 +11,11 @@ PATH = lambda p: os.path.abspath(
 def CrashExport(find_str, format1, format2):
     print("============开始导出crashreport==========")
     resultPath = ''.join(['./Results/crashInfo/'])
-    beforePath = os.path.join(resultPath + '/Before')
+    beforePath = os.path.join(resultPath + 'temp')
     if not os.path.exists(beforePath):
         os.makedirs(beforePath)
 
-    afterPath = os.path.join(resultPath + '/After')
+    afterPath = os.path.join(resultPath)
     if not os.path.exists(afterPath):
         os.makedirs(afterPath)
     print("导出设备中的所有crash文件")
@@ -30,7 +30,7 @@ def CrashExport(find_str, format1, format2):
 
     if len(f.fileList) > 0:
         mailpath = '/Users/zhulixin/Desktop/UItest/iOS/Base/crash_mail.py'
-        cmd_mail = 'python ' + mailpath + ' "fail" "VivaVideo iOS UI autotest failed" "出现了新的crash，查看地址: http://10.0.35.21:8080/job/iOS_UI_VivaVideo/ws/UItest/Results/crashInfo/After/"'
+        cmd_mail = 'python ' + mailpath + ' "fail" "VivaVideo iOS UI autotest failed" "出现了新的crash，查看地址: http://10.0.35.21:8080/job/iOS_UI_VivaVideo/ws/UItest/Results/crashInfo/"'
         print('发送邮件')
         os.system(cmd_mail)
 
@@ -46,9 +46,9 @@ def CrashExport(find_str, format1, format2):
     print("============crashreport解析完成==========")
 
     # 删除所有解析之前的crash文件，若不想删除，注掉即可
-    print("============删除所有解析之前的crash文件==========")
+    print("============删除所有解析之前的crash文件及文件夹==========")
     f.DelFolder(beforePath)
-
+    os.rmdir(beforePath)
 
 if __name__ == '__main__':
     find_str = 'XiaoYing-'  # 待测app crashreport文件关键字
