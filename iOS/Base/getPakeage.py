@@ -65,7 +65,7 @@ class getPakeage:
 
 if __name__ == '__main__':
 
-    cmd_copy = 'sshpass -p ios scp -r xxxx@10.0.35.21:/Users/iOS_Team/XiaoYing_AutoBuild/XiaoYing/XiaoYingApp/fastlane/output_ipa/ ~/Desktop'
+    cmd_copy = 'sshpass -p ios scp -r xxxx@10.0.xx.xx:/Users/iOS_Team/XiaoYing_AutoBuild/XiaoYing/XiaoYingApp/fastlane/output_ipa/ ~/Desktop'
 
     print('远程复制ipa文件到本地')
     os.system(cmd_copy)
