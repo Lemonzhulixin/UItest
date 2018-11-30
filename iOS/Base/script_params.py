@@ -39,7 +39,7 @@ deviceID = device_list[0][1]
 port = port_list[0]
 
 print('远程复制ipa文件到本地')
-cmd_copy = 'sshpass -p ios scp -r xxx@10.0.35.21:/Users/iOS_Team/XiaoYing_AutoBuild/XiaoYing/XiaoYingApp/fastlane/output_ipa/ ~/Desktop'
+cmd_copy = 'sshpass -p ios scp -r xxx@10.0.xx.xx:/Users/iOS_Team/XiaoYing_AutoBuild/XiaoYing/XiaoYingApp/fastlane/output_ipa/ ~/Desktop'
 os.system(cmd_copy)
 
 print('ipa文件本地路径')
