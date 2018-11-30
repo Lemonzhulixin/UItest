@@ -1,6 +1,6 @@
 #coding=utf-8
 import os
-from iOS.iOSCrashAnalysis import FileOperate
+from iOS.Base import FileOperate
 from iOS.Base.script_params import *
 
 PATH = lambda p: os.path.abspath(

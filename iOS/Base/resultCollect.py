@@ -35,3 +35,6 @@ if __name__ == '__main__':
     html = '/Users/zhulixin/Desktop/UItest/Results/report/report.html'
     results = ResultCollect().get_report_info(html)
     print(results)
+
+    count = results.get('Count')
+    print(count)

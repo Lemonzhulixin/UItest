@@ -32,7 +32,7 @@ def test_init():
     print('Test init begin!!!')
     path_list = ['./Results/']
 
-    capture_list = path_list + ['screenShots/']
+    capture_list = ['./screenShots/']
     log_list = path_list + ['logs/']
     report_list = path_list + ['report/']
     crash_list = path_list + ['crashInfo/']

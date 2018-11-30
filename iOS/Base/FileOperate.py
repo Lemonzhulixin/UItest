@@ -1,6 +1,8 @@
 import os
 import shutil
 import re
+import zipfile
+import time
 
 class FileFilt:
     fileList = []
@@ -46,21 +48,34 @@ class FileFilt:
                 shutil.rmtree(filePath, True)
                 print("Directory: " + filePath + " was removed!")
 
-    def FilePath(self, file_path):
-        for cur_dir, included_file in os.walk(file_path):
-            if included_file:
-                for file in included_file:
-                        print(cur_dir + "\\" + file)
+    def zip_report(self,loacl_time, path, newpath):
+        '''压缩TestReport文件夹
+        path = "./TestReport"  # 要压缩的文件夹路径
+        newpath = './TestReport_ZIP/' # 压缩后输出文件路径
+        '''
+        if not os.path.exists(newpath):
+            os.mkdir(newpath)
+        zipName = newpath + 'iOS_' + loacl_time + '.zip'  # 压缩后文件夹的名字
+        z = zipfile.ZipFile(zipName, 'w', zipfile.ZIP_DEFLATED)  # 参数一：文件夹名
+        for dirpath, dirnames, filenames in os.walk(path):
+            fpath = dirpath.replace(path, '')
+            fpath = fpath and fpath + os.sep or ''
+            for filename in filenames:
+                z.write(os.path.join(dirpath, filename), fpath + filename)
+                # z.write(os.path.join(dirpath, filename))
+        z.close()
+        print('Generate zip_report file %s completed........ ' % zipName)
+        return zipName
 
 
 if __name__ == "__main__":
     pass
 
-    afterPath = '/Users/zhulixin/Desktop/UItest/Results/crashInfo/Before'
-    # f = FileFilt()
-    # f.FilePath(afterPath)
-
-    os.rmdir(afterPath)
+    # afterPath = '/Users/zhulixin/Desktop/UItest/Results/crashInfo/Before'
+    # # f = FileFilt()
+    # # f.FilePath(afterPath)
+    #
+    # os.rmdir(afterPath)
 
     # find_str = 'XiaoYing-'
     # file_format = '.ips'
@@ -69,3 +84,6 @@ if __name__ == "__main__":
     # for file in b.fileList:
     #     filepath = os.path.abspath(file) #绝对路径
     #     print(filepath)
+
+    f = FileFilt()
+    f.zip_report('./Results/', './Results_ZIP/')
