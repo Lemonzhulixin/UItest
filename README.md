@@ -40,7 +40,7 @@ git clone git@192.168.1.33:QAGroup/UItest.git
 
 1. 为了避免端口冲突，为每台设备单独启动一个appium进程，例如：
 ```
-appium -p 4800 -bp 4900 -dc "{\"deviceName\": \"c0d2dc31\", \"noReset\": true}"
+appium -p 4800 -bp 4900 -dc "{\"deviceName\": \"c0d2dc311\", \"noReset\": true}"
 ```
 参数说明：
 * -p: 该端口接受webdriver请求，默认开启4723端口，上面示例使用4800；
